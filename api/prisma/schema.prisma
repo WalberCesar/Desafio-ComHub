@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?  @unique
+  password  String? // Opcional para manter compatibilidade com identificação por nome
+  isGuest   Boolean  @default(false) // true para usuários que se identificaram apenas por nome
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  messages Message[]
+  ideas    Idea[]
+  votes    Vote[]
+
+  @@map("users")
+}
+
+model Room {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  messages Message[]
+  ideas    Idea[]
+
+  @@map("rooms")
+}
+
+model Message {
+  id        String      @id @default(cuid())
+  content   String
+  role      MessageRole @default(USER)
+  createdAt DateTime    @default(now())
+
+  // Foreign keys
+  userId String?
+  roomId String
+
+  // Relations
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  room Room  @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  tags Tag[]
+
+  @@map("messages")
+}
+
+model Idea {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  score       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Foreign keys
+  userId String
+  roomId String
+
+  // Relations
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room  Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  votes Vote[]
+  tags  Tag[]
+
+  @@map("ideas")
+}
+
+model Vote {
+  id        String   @id @default(cuid())
+  value     Int      @default(1) // +1 for upvote
+  createdAt DateTime @default(now())
+
+  // Foreign keys
+  userId String
+  ideaId String
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  idea Idea @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+
+  // One vote per user per idea
+  @@unique([userId, ideaId])
+  @@map("votes")
+}
+
+model Tag {
+  id   String @id @default(cuid())
+  name String @unique
+
+  // Relations
+  messages Message[]
+  ideas    Idea[]
+
+  @@map("tags")
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+}

@@ -1,0 +1,60 @@
+{
+  "name": "pitchlab-api",
+  "version": "1.0.0",
+  "description": "PitchLab API - Collaborative ideation platform with real-time chat",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/index.js",
+    "dev": "npx nodemon --exec \"npx ts-node src/index.ts\"",
+    "dev:ts": "npx ts-node src/index.ts",
+    "db:generate": "npx prisma generate",
+    "db:migrate": "npx prisma migrate dev",
+    "db:studio": "npx prisma studio",
+    "db:push": "npx prisma db push",
+    "db:reset": "npx prisma migrate reset --force",
+    "db:seed": "npx ts-node prisma/seed.ts",
+    "docker:db:up": "docker compose -f docker-compose.postgres.yml up -d",
+    "docker:db:down": "docker compose -f docker-compose.postgres.yml down",
+    "docker:db:logs": "docker compose -f docker-compose.postgres.yml logs -f postgres",
+    "docker:db:reset": "docker compose -f docker-compose.postgres.yml down -v && docker compose -f docker-compose.postgres.yml up -d",
+    "setup": "npm install && npm run db:generate",
+    "setup:docker": "npm run docker:db:up && npm run db:migrate && npm run db:generate",
+    "lint": "echo \"Linting ainda não configurado\"",
+    "test": "echo \"Testes ainda não configurados\""
+  },
+  "keywords": [
+    "api",
+    "websockets",
+    "collaboration",
+    "chat",
+    "ideas"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.19.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "groq-sdk": "^0.31.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "socket.io": "^4.7.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.14.9",
+    "nodemon": "^3.1.4",
+    "prisma": "^5.19.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}
