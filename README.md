@@ -287,6 +287,5 @@ Este projeto foi desenvolvido como parte de um desafio técnico.
 
 ---
 
-**Desenvolvido por**: [Seu Nome]  
-**Data**: [Data de Desenvolvimento]  
-**Tempo**: 48 horas (Desafio Técnico)
+**Desenvolvido por**: Walber Cesar
+&& npm run dev
