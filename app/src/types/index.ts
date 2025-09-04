@@ -18,6 +18,7 @@ export interface Room {
   _count?: {
     messages: number;
     participants: number;
+    ideas: number;
   };
 }
 

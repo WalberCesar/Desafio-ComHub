@@ -19,7 +19,12 @@
     "docker:db:logs": "docker compose -f docker-compose.postgres.yml logs -f postgres",
     "docker:db:reset": "docker compose -f docker-compose.postgres.yml down -v && docker compose -f docker-compose.postgres.yml up -d",
     "setup": "npm install && npm run db:generate",
-    "setup:docker": "npm run docker:db:up && npm run db:migrate && npm run db:generate",
+    "setup:docker": "npm run docker:db:up && sleep 5 && npm run db:migrate && npm run db:generate",
+    "setup:full": "npm install && npm run docker:db:up && sleep 10 && npm run db:migrate && npm run db:generate && npm run db:seed",
+    "dev:full": "npm run setup:full && npm run dev",
+    "start:all": "./scripts/start-all.sh",
+    "stop:all": "npm run docker:db:down",
+    "status": "./scripts/check-services.sh",
     "lint": "echo \"Linting ainda não configurado\"",
     "test": "echo \"Testes ainda não configurados\""
   },

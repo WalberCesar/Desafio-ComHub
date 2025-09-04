@@ -50,7 +50,7 @@ export function RoomCard({ room }: RoomCardProps) {
               
               <div className="flex items-center gap-1">
                 <Users size={14} />
-                <span>{room._count.ideas || 0} ideias</span>
+                <span>{room._count?.ideas || 0} ideias</span>
               </div>
             </>
           )}

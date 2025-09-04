@@ -59,7 +59,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         
         if (response.success && response.data) {
           // Handle both response formats: data directly or data.user
-          const userData = response.data.user || response.data;
+          const userData = (response.data as any).user || response.data;
           setUser(userData);
           connectSocket();
         } else {
